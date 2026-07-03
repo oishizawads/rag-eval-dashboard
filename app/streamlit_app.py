@@ -9,7 +9,7 @@ import sys
 from pathlib import Path
 
 import altair as alt
-import polars as pl
+import pandas as pd
 import streamlit as st
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -110,7 +110,7 @@ def render_per_question_chart(summary) -> None:
     if not summary.per_question:
         st.info("評価対象の質問がありません。")
         return
-    df = pl.DataFrame(
+    df = pd.DataFrame(
         {
             "質問ID": [p.question_id for p in summary.per_question],
             "クエリ": [p.query for p in summary.per_question],
@@ -120,7 +120,7 @@ def render_per_question_chart(summary) -> None:
         }
     )
     chart = (
-        alt.Chart(df.to_pandas())
+        alt.Chart(df)
         .mark_bar(cornerRadiusEnd=4)
         .encode(
             x=alt.X("質問ID:O", sort=None, title="質問ID"),
@@ -167,7 +167,7 @@ def render_results(
                 "正解根拠": "○" if is_relevant else "",
             }
         )
-    st.dataframe(pl.DataFrame(rows), width="stretch", hide_index=True)
+    st.dataframe(pd.DataFrame(rows), width="stretch", hide_index=True)
 
     for r in results:
         item = corpus_map.get(r.faq_id)
