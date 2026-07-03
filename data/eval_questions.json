@@ -1,0 +1,86 @@
+[
+  {
+    "id": "q_01",
+    "query": "パスワードを忘れてログインできない",
+    "relevant_ids": [
+      "faq_002"
+    ]
+  },
+  {
+    "id": "q_02",
+    "query": "請求書を PDF でダウンロードしたい",
+    "relevant_ids": [
+      "faq_004"
+    ]
+  },
+  {
+    "id": "q_03",
+    "query": "API の呼び出し回数の上限を知りたい",
+    "relevant_ids": [
+      "faq_005"
+    ]
+  },
+  {
+    "id": "q_04",
+    "query": "データを CSV や JSON で書き出したい",
+    "relevant_ids": [
+      "faq_006"
+    ]
+  },
+  {
+    "id": "q_05",
+    "query": "二段階認証を有効にしたい",
+    "relevant_ids": [
+      "faq_007"
+    ]
+  },
+  {
+    "id": "q_06",
+    "query": "チームにメンバーを招待したい",
+    "relevant_ids": [
+      "faq_008"
+    ]
+  },
+  {
+    "id": "q_07",
+    "query": "Slack との連携を追加したい",
+    "relevant_ids": [
+      "faq_009"
+    ]
+  },
+  {
+    "id": "q_08",
+    "query": "過去の操作履歴を確認したい",
+    "relevant_ids": [
+      "faq_010"
+    ]
+  },
+  {
+    "id": "q_09",
+    "query": "プランを安いものに変更したい",
+    "relevant_ids": [
+      "faq_003"
+    ]
+  },
+  {
+    "id": "q_10",
+    "query": "通知をメール以外にしたい",
+    "relevant_ids": [
+      "faq_012"
+    ]
+  },
+  {
+    "id": "q_11",
+    "query": "データの保持期間はどれくらいか",
+    "relevant_ids": [
+      "faq_013"
+    ]
+  },
+  {
+    "id": "q_12",
+    "query": "メンテナンスで止まる時間を知りたい",
+    "relevant_ids": [
+      "faq_015"
+    ]
+  }
+]

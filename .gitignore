@@ -1,0 +1,20 @@
+__pycache__/
+*.py[cod]
+.venv/
+.uv/
+
+# 環境変数（秘密情報）
+.env
+.env.*
+!.env.example
+
+# テスト・型チェックのキャッシュ
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Streamlit
+.streamlit/secrets.toml
+
+# OS
+.DS_Store
