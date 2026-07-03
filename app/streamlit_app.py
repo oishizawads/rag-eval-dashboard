@@ -15,6 +15,7 @@ import streamlit as st
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from src.answer import build_answer
+from src.brand import apply_brand, hero
 from src.data import FaqItem, build_corpus, load_eval_questions
 from src.evaluate import evaluate_retriever
 from src.search import SearchMethod, Searcher
@@ -179,6 +180,7 @@ def render_results(
 
 
 def main() -> None:
+    apply_brand(st)
     cfg = render_sidebar()
     corpus = load_corpus()
     questions = load_questions()
@@ -187,9 +189,11 @@ def main() -> None:
     searcher = get_searcher(cfg["method"])
     top_k = cfg["top_k"]
 
-    st.title("RAG 評価ダッシュボード")
-    st.caption(
-        "検索方式（TF-IDF / BM25 風）を切り替えて、検索結果・回答・根拠・評価指標を比較します。"
+    hero(
+        st,
+        "RAG Evaluation",
+        "RAG 評価ダッシュボード",
+        "検索方式（TF-IDF / BM25 風）を切り替えて、検索結果・回答・根拠・評価指標を比較します。",
     )
 
     st.subheader("指標サマリー（質問セット全体）")
