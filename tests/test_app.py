@@ -13,8 +13,9 @@ def test_app_renders_without_exception() -> None:
     at = AppTest.from_file(str(APP_PATH), default_timeout=120)
     at.run()
     assert not at.exception, f"アプリで例外が発生: {at.exception}"
-    # 指標サマリーとタイトルが描画されていること
-    assert at.title
+    # 指標サマリーとヒーロー見出し（brand.hero は markdown で描画）があること
+    assert at.markdown
+    assert any("brand-hero" in str(md.value) for md in at.markdown)
     assert at.metric
 
 

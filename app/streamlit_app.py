@@ -15,10 +15,20 @@ import streamlit as st
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from src.answer import build_answer
-from src.brand import apply_brand, hero
+from src.brand import (
+    apply_brand,
+    footer_backlink,
+    hero,
+    section,
+    sidebar_header,
+    themed_altair,
+    show_table,
+)
 from src.data import FaqItem, build_corpus, load_eval_questions
 from src.evaluate import evaluate_retriever
 from src.search import SearchMethod, Searcher
+
+themed_altair(alt)
 
 st.set_page_config(
     page_title="RAG 評価ダッシュボード",
@@ -43,8 +53,7 @@ def get_searcher(method: str) -> Searcher:
 
 
 def render_sidebar() -> dict:
-    st.sidebar.title("RAG 評価ダッシュボード")
-    st.sidebar.caption("合成データのデモ（実在の精度・効果を示すものではありません）")
+    sidebar_header(st, "RAG 評価ダッシュボード")
 
     method = st.sidebar.radio(
         "検索方式",
@@ -147,12 +156,12 @@ def render_results(
         return
 
     answer = build_answer(query, results, corpus_map)
-    st.subheader("生成回答（テンプレート）")
+    section(st, "ANSWER", "生成回答（テンプレート）")
     conf = answer.confidence
     st.markdown(f"**信頼度（相対）:** `{conf:.2f}` ｜ 根拠: `{answer.source_id}` / {answer.source_title}")
     st.info(answer.text)
 
-    st.subheader(f"根拠ドキュメント（Top-{top_k}）")
+    section(st, "EVIDENCE", f"根拠ドキュメント（Top-{top_k}）")
     rows = []
     for r in results:
         item = corpus_map.get(r.faq_id)
@@ -167,7 +176,7 @@ def render_results(
                 "正解根拠": "○" if is_relevant else "",
             }
         )
-    st.dataframe(pd.DataFrame(rows), width="stretch", hide_index=True)
+    show_table(st, pd.DataFrame(rows))
 
     for r in results:
         item = corpus_map.get(r.faq_id)
@@ -191,12 +200,13 @@ def main() -> None:
 
     hero(
         st,
-        "RAG Evaluation",
+        "RAG EVALUATION",
         "RAG 評価ダッシュボード",
         "検索方式（TF-IDF / BM25 風）を切り替えて、検索結果・回答・根拠・評価指標を比較します。",
+        chips=["Python", "scikit-learn", "Altair", "TF-IDF", "BM25"],
     )
 
-    st.subheader("指標サマリー（質問セット全体）")
+    section(st, "EVALUATION", "指標サマリー（質問セット全体）")
     summary = evaluate_retriever(searcher, questions, top_k=top_k)
     render_metric_summary(summary)
     render_per_question_chart(summary)
@@ -208,19 +218,21 @@ def main() -> None:
         if question is None:
             st.warning("質問が選択されていません。")
             return
-        st.subheader(f"選択中の質問: {question.id}")
+        section(st, "QUERY", f"選択中の質問: {question.id}")
         st.markdown(f"**クエリ:** {question.query}")
         st.markdown(f"**正解根拠:** {', '.join(question.relevant_ids) if question.relevant_ids else '（なし）'}")
         results = searcher.search(question.query, top_k=top_k)
         render_results(question.query, results, corpus_map, question.relevant_ids, top_k)
     else:
-        st.subheader("カスタムクエリ評価")
+        section(st, "CUSTOM QUERY", "カスタムクエリ評価")
         query = cfg["custom_query"]
         if not query.strip():
             st.info("サイドバーにカスタムクエリを入力すると、検索結果と回答が表示されます。")
             return
         results = searcher.search(query, top_k=top_k)
         render_results(query, results, corpus_map, None, top_k)
+
+    footer_backlink(st, repo="rag-eval-dashboard")
 
 
 if __name__ == "__main__":

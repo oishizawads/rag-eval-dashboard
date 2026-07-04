@@ -4,6 +4,7 @@ version = "0.1.0"
 description = "RAG の品質を「検索結果・回答・根拠・評価指標」で比較する公開用小型アプリ（合成データ）"
 requires-python = ">=3.11"
 dependencies = [
+    "altair>=5",
     "polars>=1.42.1",
     "pytest>=9.0.3",
     "scikit-learn>=1.6.1",
